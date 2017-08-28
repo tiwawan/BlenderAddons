@@ -16,11 +16,13 @@ class VolumeMeter(types.Operator):
     bl_label = "Volume Meter"
     bl_options = {'REGISTER', 'UNDO'}
 
+    loop = props.IntProperty(name="Bars", default=10, min=1, max=500)
     max_height = props.IntProperty(name="Maximum Height", default=10, min=1, max=100)
     offset_coeff = props.FloatProperty(name="Offset X", default=1.3, min=1.0, max=10.0)
     offset_coeff_z = props.FloatProperty(name="Offset Z", default=1.3, min=1.0, max=10.0)
     seed = props.IntProperty(name="Seed", default=0, min=0, max=65535)
     ave_times = props.IntProperty(name="Random Value Average Times", default=2, min=1, max=50)
+    
 
     def execute(self, context):
         random.seed(self.seed)
@@ -30,7 +32,7 @@ class VolumeMeter(types.Operator):
         ops.object.modifier_add(type='ARRAY')
         
         loop = 30
-        for i in range(0, loop):
+        for i in range(0, self.loop):
             obj = scene.objects.active
             
             count = 0
